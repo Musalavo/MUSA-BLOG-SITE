@@ -1,25 +1,18 @@
 import { useState, useEffect } from "react";
 import BlogList from "./BlogList";
+import useFetch from "./useFetch";
 const Home = () => {
-    const [blogs, setBlogs] = useState([
-        { title: 'My New Website', body: 'lorem Ipsum', author: 'Mario', id: 1 },
-        { title: 'Welcome Party', body: 'lorem Ipsum', author: 'Yashi', id: 2 },
-        { title: 'Web dev tips', body: 'lorem Ipsum', author: 'Mario', id: 3 }
+    const {data:blogs,isPending,error} = useFetch('http://localhost:8000/Blogs')
+    
+    // const [name, setName] = useState('Mario');
 
-    ]);
-    const [name, setName] = useState('Mario');
-    const handleDelete = (id) => {
-        const newBlogs = blogs.filter(blog => blog.id !== id);
-        setBlogs(newBlogs);
-    }
-    useEffect(() => {
-        console.log('Use Effect Ran');
-        console.log(blogs);
-    }, [name])
-
+  
     return (
         <div className="home">
-            <BlogList
+            {error && <div>{error}</div>}
+            {isPending && <div>Loading.....</div>}
+            {blogs && <BlogList blogs={blogs} title="All Blogs" />}
+            {/* <BlogList
                 blogs={blogs}
                 title="All Blogs!"
                 subheading="The Best Of its"
@@ -31,9 +24,10 @@ const Home = () => {
                 handleDelete={handleDelete}
             />
             <button onClick={() => setName('Kyle')}>Change Name</button>
-            <p>{name}</p>
+            <p>{name}</p> */}
         </div>
     );
 }
 
-export default Home;
+export default Home;  
+// npm install react-router-dom@6   
